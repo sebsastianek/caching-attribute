@@ -29,7 +29,7 @@ composer require annotated-cache
 Here’s a basic example of using AnnotatedCache in a standalone PHP application:
 
 ```php
-use AnnotatedCache\Attributes\MakeCache;
+use AnnotatedCache\Attributes\Cached;
 use AnnotatedCache\Cache\CacheFactory;
 use AnnotatedCache\Cache\CacheKeyGenerator;
 use AnnotatedCache\Interceptor\CacheInterceptor;
@@ -38,7 +38,7 @@ use Psr\Cache\CacheItemPoolInterface;
 
 class MyService
 {
-    #[MakeCache(ttl: 600, userSpecific: true)]
+    #[Cached(ttl: 600, userSpecific: true)]
     public function getData(string $key): string
     {
         // Simulate an expensive operation
