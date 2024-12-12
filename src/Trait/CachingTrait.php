@@ -3,20 +3,15 @@
 namespace CachingAttribute\Trait;
 
 
-use CachingAttribute\Interceptor\CacheInterceptor;
-use Psr\Cache\InvalidArgumentException;
+use CachingAttribute\Interface\CacheInterceptorInterface;
 
 trait CachingTrait {
-    private CacheInterceptor $cacheInterceptor;
+    private CacheInterceptorInterface $cacheInterceptor;
 
-    public function setCacheInterceptor(CacheInterceptor $cacheInterceptor): void {
+    public function setCacheInterceptor(CacheInterceptorInterface $cacheInterceptor): void {
         $this->cacheInterceptor = $cacheInterceptor;
     }
 
-    /**
-     * @throws \ReflectionException
-     * @throws InvalidArgumentException
-     */
     public function __call(string $method, array $args): mixed {
         if (method_exists($this, $method)) {
             return $this->cacheInterceptor->intercept($this, $method, $args);
