@@ -1,6 +1,6 @@
 <?php
 
-namespace CachingAttribute\Attributes;
+namespace CachingAttribute\Attribute;
 
 use Attribute;
 

@@ -2,7 +2,7 @@
 
 namespace CachingAttribute\Interceptor;
 
-use CachingAttribute\Attributes\Cached;
+use CachingAttribute\Attribute\Cached;
 use CachingAttribute\Interface\CacheInterceptorInterface;
 use ReflectionMethod;
 

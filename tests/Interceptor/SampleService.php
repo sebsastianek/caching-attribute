@@ -2,7 +2,7 @@
 
 namespace Tests\Interceptor;
 
-use CachingAttribute\Attributes\Cached;
+use CachingAttribute\Attribute\Cached;
 
 class SampleService
 {

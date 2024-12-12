@@ -26,43 +26,41 @@ composer require annotated-cache
 
 ### Example with a Plain PHP Service
 
-Here’s a basic example of using AnnotatedCache in a standalone PHP application:
+Here’s a basic example of using AnnotatedCache with the CachingTrait in a standalone PHP application:
 
 ```php
-use AnnotatedCache\Attributes\Cached;
-use AnnotatedCache\Cache\CacheFactory;
-use AnnotatedCache\Cache\CacheKeyGenerator;
-use AnnotatedCache\Interceptor\CacheInterceptor;
-use AnnotatedCache\Interceptor\MethodInterceptor;
-use Psr\Cache\CacheItemPoolInterface;
+use AnnotatedCache\Attributes\Cached; 
+use AnnotatedCache\Cache\CacheFactory; 
+use AnnotatedCache\Cache\CacheKeyGenerator; 
+use AnnotatedCache\Interceptor\CacheInterceptor; 
+use Psr\Cache\CacheItemPoolInterface; 
+use AnnotatedCache\Trait\CachingTrait; 
+ 
+class MyService 
+{ 
+    use CachingTrait; 
+    
+    #[Cached(ttl: 600, userSpecific: true)] 
+    public function getData(string $key): string 
+    { 
+        return 'Data for ' . $key; 
+    } 
+} 
+ 
+$cacheBuilder = function (string $name): CacheItemPoolInterface { 
+    return new SomeCacheImplementation(); // Replace with actual PSR-6 implementation 
+}; 
 
-class MyService
-{
-    #[Cached(ttl: 600, userSpecific: true)]
-    public function getData(string $key): string
-    {
-        // Simulate an expensive operation
-        return 'Data for ' . $key;
-    }
-}
-
-// Initialize dependencies
-$cacheBuilder = function (string $name): CacheItemPoolInterface {
-    return new SomeCacheImplementation(); // Replace with actual PSR-6 implementation
-};
-
-$userIdentityProvider = new SomeUserIdentityProvider(); // Replace with actual user provider
-$cacheFactory = new CacheFactory($cacheBuilder);
-$keyGenerator = new CacheKeyGenerator($userIdentityProvider);
-$cacheInterceptor = new CacheInterceptor($cacheFactory, $keyGenerator);
-
-// Intercept method calls
-$service = new MyService();
-$interceptor = new MethodInterceptor($service, $cacheInterceptor);
-
-// Call a method
-$result = $interceptor->__call('getData', ['myKey']);
-echo $result; // Cached result
+$userIdentityProvider = new SomeUserIdentityProvider(); // Replace with actual user provider 
+$cacheFactory = new CacheFactory($cacheBuilder); 
+$keyGenerator = new CacheKeyGenerator($userIdentityProvider); 
+$cacheInterceptor = new CacheInterceptor($cacheFactory, $keyGenerator); 
+ 
+$service = new MyService(); 
+$service->setCacheInterceptor($cacheInterceptor); 
+ 
+$result = $service->getData('myKey'); 
+echo $result; // Cached result 
 ```
 
 ## Framework Integrations

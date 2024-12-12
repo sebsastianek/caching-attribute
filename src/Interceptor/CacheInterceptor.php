@@ -4,7 +4,7 @@ namespace CachingAttribute\Interceptor;
 
 use CachingAttribute\Interface\CacheInterceptorInterface;
 use CachingAttribute\Interface\CacheKeyGeneratorInterface;
-use CachingAttribute\Attributes\Cached;
+use CachingAttribute\Attribute\Cached;
 use CachingAttribute\Cache\CacheFactory;
 use Psr\Cache\InvalidArgumentException;
 use ReflectionMethod;
